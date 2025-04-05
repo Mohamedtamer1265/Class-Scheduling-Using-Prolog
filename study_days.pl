@@ -1,4 +1,4 @@
-:- consult(’studentKB’).
+:- consult('studentKB').
 study_days(Slots, DayCount):-
 		setof(Day,allDays(Slots,Day),Days),
 		list_length(Days,ActualDays),

@@ -1,17 +1,13 @@
-:- consult('studentKB').
+:- consult('publicKB').
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-slot_num(Day,Course,SN):-
-    day_schedule(Day,L),
-    slot_num_helper(L,Course,1,SN).
+student_schedule(StudentID, Schedule) :-
+    findall(Course, studies(StudentID, Course), Courses),
+    build_schedule(Courses, [], Schedule),
+    no_clashes(Schedule).
 
-slot_num_helper([H|_],Course,Acc,Acc):-
-    member(Course,H).
-
-slot_num_helper([H|T],Course,Acc,SN):-
-    \+member(Course,H),Acc1 is Acc+1,
-    slot_num_helper(T,Course,Acc1,SN).
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-student_schedule(student_id, X):-
-    bagof(slot(Day,SN,Course),(studies(student_id,Course),slot_num(Day,Course,SN)),X).
+build_schedule([], Acc, Acc).
+build_schedule([Course | Rest], Acc, Schedule) :-
+    day_schedule(Day, DaySchedule),
+    nth1(SlotNum, DaySchedule, CourseList),
+    member(Course, CourseList),
+    build_schedule(Rest, [slot(Day, SlotNum, Course) | Acc], Schedule).

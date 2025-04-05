@@ -1,6 +1,5 @@
-:- consult('studentKB').
-
-contains(slot(Day,Slot,_),[slot(Day,Slot,_)|T])
-contains(slot(Day,Slot,_),[slot(Day2,Slot2,_)|T]):-
-    (Day2 \= Day;Slot2 \= Slot),
-    contains(slot(Day,Slot,_),T).
+:- consult('publicKB').
+no_clashes([]).
+no_clashes([slot(Day, Slot, _)|T]) :-
+    \+ member(slot(Day, Slot, _), T),
+    no_clashes(T).

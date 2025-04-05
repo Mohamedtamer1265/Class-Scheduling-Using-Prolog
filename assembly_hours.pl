@@ -1,4 +1,4 @@
-:- consult('studentKB').
+:- consult('publicKB').
 
 assembly_hours(Schedules, AH) :-
 

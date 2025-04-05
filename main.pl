@@ -1,4 +1,4 @@
-:- consult('studentKB').
+:- consult('publicKB').
 :- consult('university_schedule').
 :- consult('student_schedule').
 :- consult('no_clashes').

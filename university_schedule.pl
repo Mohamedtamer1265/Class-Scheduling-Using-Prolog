@@ -1,14 +1,9 @@
 :- consult('publicKB').
 :- consult('student_schedule').
 
-findStudents(Students):-
-    setof(Student, Subject^studies(Student, Subject), Students).
+university_schedule(S) :-
+    setof(Student, Course^studies(Student, Course), Students),
+    maplist(generate_student_schedule, Students, S). %We used map liot to collect all resulting sched structures into the list S and we understood its format with the assistance of AI
 
-university_schedule(S):-
-    findStudents(Students),
-    university_schedule_helper(Students,S).
-
-university_schedule_helper([],[]):-!.
-university_schedule_helper([H|T],[X|Y]):-
-    student_schedule(H,X),
-    university_schedule_helper(T,Y).
+generate_student_schedule(Student, sched(Student, Slots)) :-
+    student_schedule(Student, Slots).

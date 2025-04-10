@@ -18,6 +18,9 @@ student_schedule(Student_id,Slots):-
     findSubjects(Student_id,Subjects),
     permutation(Subjects,NewSubjects),
     student_schedule_helper(NewSubjects,Slots),
+	setof(Day,allDays(Slots,Day),Days),
+	list_length(Days,ActualDays),
+	ActualDays=<5,
 	no_clashes(Slots).
 
 student_schedule_helper([],[]):-!.
